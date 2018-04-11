@@ -1,7 +1,7 @@
 <center>
-
+<!-- Se puede utilizar código HTML -->
 <h1>Este es un Mensaje Utilizando AJAX</h1>
-Muajajajakajajajaqja
+Muajajajaajajajaja
 <br>
 /n
 Hola
