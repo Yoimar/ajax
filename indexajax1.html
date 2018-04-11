@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Curso Ajax Tutorial 1</title>
+</head>
+<body>
+    <center>
+        <h1> Tutorial AJAX </h1>
+        <button onclick="ejecutarAJAX()">Boton de AJAX</button>
+        <div id="info"></div>
+    </center>
+    <script type="text/javascript">
+
+    function ejecutarAJAX(){
+
+        /* Estatus de la request Peticiones "readyState" */
+        // 0 Petición no ha sido inicializada
+        // 1 Petición ha sido establecida
+        // 2 Petición ha sido enviada
+        // 3 Petición esta siendo procesada
+        // 4 Petición ha sido finalizada
+
+        /* Se inicializa las variables de la siguiente manera */
+        var ajaxRequest;
+        if (window.XMLHttpRequest){
+            ajaxRequest = new XMLHttpRequest();
+        }else{
+            ajaxRequest = new ActiveXObject("Microsoft.XMLHTTP");
+        }
+
+        /* Verifico si el onreadystatechange cambia con la funcion anonima */
+        ajaxRequest.onreadystatechange =  function(){
+            /* Si la peticion finalizo readyState ==4 y el estatus es 200 Es decir que fue enviado */
+            if(ajaxRequest.readyState == 4 && ajaxRequest.status == 200){
+                /* obtengo el documento getelementby id y le aplico el innerHTML Que es el Cambio */
+                document.getElementById('info').innerHTML = ajaxRequest.responseText;
+            }
+        }
+        /* Abro el archivo por medio de GET*/
+        ajaxRequest.open("GET", "documento.txt", true);
+        /* Envio la respuesta*/
+        ajaxRequest.send();
+    }
+
+    </script>
+</body>
+</html>

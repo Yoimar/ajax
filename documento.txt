@@ -1,0 +1,8 @@
+<center>
+
+<h1>Este es un Mensaje Utilizando AJAX</h1>
+Muajajajakajajajaqja
+<br>
+/n
+Hola
+</center>
