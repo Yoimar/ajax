@@ -1,0 +1,86 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Ajax Tutorial 06</title>
+
+    <style media="screen">
+        .encontrado{
+            color: green;
+            font-size: 2em;
+        }
+        .no-encontrado{
+            color: red;
+            font-size: 2em;
+        }
+    </style>
+
+</head>
+<body>
+
+    <center>
+    <h1>Tutorial 06 AJAX</h1>
+    <h3> Buscar persona en un objeto de JSON</h3>
+
+    Buscar Persona: <input type="text" onkeyup="ajax_get_json(this.value)">
+
+    <div id="info"></div>
+
+    </center>
+
+    <script type="text/javascript">
+
+    /* Variable para llamar al document getElementById con info tener el div en una variable */
+    var resultado = document.getElementById('info');
+
+    function ajax_get_json(usuarioingresado){
+
+        var xmlhttp;
+        if (window.XMLHttpRequest){
+            xmlhttp = new XMLHttpRequest();
+        } else {
+            xmlhttp = new ActiveXObject("Microsoft.XMLHTTP");
+        }
+
+        if (usuarioingresado.length === 0) {
+            resultado.innerHTML == "";
+        } else {
+
+            xmlhttp.onreadystatechange = function(){
+                if(xmlhttp.readyState == 4 && xmlhttp.status == 200){
+
+                    var datos = JSON.parse(xmlhttp.responseText);
+
+                    var x =  encontrarPersona(datos, usuarioingresado);
+                    var mensaje = (x === true) ?
+                    "<span class='encontrado' >Si fue Encontrado</span>":"<span class='no-encontrado'>No Fue Encontrado</span>";
+                    resultado.innerHTML = mensaje;
+                }
+            }
+        }
+
+        //Abro el archivo que contiene los datos del arreglo de json
+        xmlhttp.open("GET", "arraymenor.json", true);
+        // Envio la respuesta
+        xmlhttp.send();
+
+    //Fin de la funcion ajax_get_json
+    }
+
+    function encontrarPersona(objetoJSON, usuario) {
+        //Declaro un arreglo array para guardar los datos
+        var arreglo = [];
+        //Recorro los datos del ObjetoJSON y guardo si encuentro el usuario
+        for (var i in objetoJSON) {
+            var persona = objetoJSON[i];
+            arreglo.push(persona.nombre);
+        }
+
+        return arreglo.indexOf(usuario) > -1;
+    }
+
+    </script>
+</body>
+</html>

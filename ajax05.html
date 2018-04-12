@@ -1,0 +1,79 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Ajax Tutorial 05</title>
+</head>
+<body>
+
+    <center>
+    <h1>Tutorial 05 AJAX</h1>
+    <h3>Mostrar Edad menor en un array JSON </h3>
+    <button onclick="ajax_get_json()">Mostrar Menor array JSON</button>
+    <div id="info"></div>
+
+    </center>
+
+    <script type="text/javascript">
+
+    /* Variable para llamar al document getElementById con info tener el div en una variable */
+    var resultado = document.getElementById('info');
+
+    function ajax_get_json(){
+        var xmlhttp;
+        if (window.XMLHttpRequest){
+            xmlhttp = new XMLHttpRequest();
+        } else {
+            xmlhttp = new ActiveXObject("Microsoft.XMLHTTP");
+        }
+
+        xmlhttp.onreadystatechange = function(){
+            if(xmlhttp.readyState == 4 && xmlhttp.status == 200){
+
+                //Guardo la información del JSON en una variable
+                var datos = JSON.parse(xmlhttp.responseText);
+                // Creo una variable que llama a una funcion que encuentra al menor
+                var edadMenor = encontrarEdadmenor(datos);
+                if (resultado.innerHTML === ""){
+                resultado.innerHTML += "La edad menor es: "+ edadMenor;
+                }
+            }
+        }
+
+        //Abro el archivo que contiene los datos del arreglo de json
+        xmlhttp.open("GET", "arraymenor.json", true);
+        // Envio la respuesta
+        xmlhttp.send();
+
+    //Fin de la funcion ajax_get_json
+    }
+
+    function encontrarEdadmenor(objetoJSON) {
+        //Declaro un arreglo array para guardar los datos
+        var arreglo = [];
+        //Recorro los datos del ObjetoJSON y guardo la variable edad dentro del arreglo
+        for (var i in objetoJSON) {
+            var persona = objetoJSON[i];
+            arreglo.push(persona.edad);
+        }
+
+/*
+        //Recorro el arreglo para encontrar la edad Menor
+        var edadMenor = arreglo[0];
+
+        for (var i = 0; i < arreglo.length; i++) {
+            if (arreglo[i] < edadMenor) {
+                edadMenor = arreglo[i];
+            }
+        }
+*/
+        //Funcion de javascript para encontrar el menor en un arreglo
+        var edadMenor = Math.min.apply(null, arreglo)
+        return edadMenor;
+    }
+
+    </script>
+</body>
+</html>
