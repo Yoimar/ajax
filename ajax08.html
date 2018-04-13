@@ -1,0 +1,66 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Ajax Tutorial 08</title>
+    <style media="screen">
+        tr:nth-child(even){
+            background-color: gray;
+        }
+    </style>
+</head>
+<body>
+
+    <center>
+    <h1>Tutorial 08 AJAX</h1>
+    <h3>Calculadora GET - PHP </h3>
+
+    <h3>Calculadora</h3>
+    Numero1: <input type="text" id="n1"> <br> <br>
+    Numero2: <input type="text" id="n2"> <br> <br>
+    <button onclick="ejecutarAJAX()">=</button>
+    <div id="info"></div>
+    </center>
+
+    <script type="text/javascript">
+
+    /* Variable para llamar al document getElementById con info tener el div en una variable */
+    var resultado = document.getElementById('info');
+
+    function ejecutarAJAX(){
+        var xmlhttp;
+        if (window.XMLHttpRequest){
+            xmlhttp = new XMLHttpRequest();
+        } else {
+            xmlhttp = new ActiveXObject("Microsoft.XMLHTTP");
+        }
+
+        var a = document.getElementById("n1").value;
+        var b = document.getElementById("n2").value;
+
+        var cadena = "num1=" + a + "&num2=" + b;
+
+        xmlhttp.onreadystatechange = function(){
+            if(xmlhttp.readyState == 4 && xmlhttp.status == 200){
+
+                //La respuesta que obtenga (xmlhttp.responseText) la muestro en resultado
+                resultado.innerHTML = xmlhttp.responseText;
+
+            }
+        }
+
+        //Abro el archivo del servidor donde envio los parametros
+        xmlhttp.open("GET", "calculadora.php?"+cadena, true);
+        // Envio la respuesta
+        xmlhttp.send();
+
+    //Fin de la funcion ajax_post
+    }
+
+
+
+    </script>
+</body>
+</html>

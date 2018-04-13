@@ -1,0 +1,68 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Ajax Tutorial 07</title>
+</head>
+<body>
+
+    <center>
+    <h1>Tutorial 07 AJAX</h1>
+    <h3>Hacer Formulario POST, PHP </h3>
+
+    <h3>Ingrese sus datos</h3>
+    Nombre: <input type="text" id="nombre"> <br> <br>
+    Apellido: <input type="text" id="apellido"> <br> <br>
+    <input type="submit" value="Enviar Informacion" onclick="ajax_post()">
+
+    <div id="info"></div>
+
+    </center>
+
+    <script type="text/javascript">
+
+    /* Variable para llamar al document getElementById con info tener el div en una variable */
+    var resultado = document.getElementById('info');
+
+
+
+    function ajax_post(){
+        var xmlhttp;
+        if (window.XMLHttpRequest){
+            xmlhttp = new XMLHttpRequest();
+        } else {
+            xmlhttp = new ActiveXObject("Microsoft.XMLHTTP");
+        }
+
+        var n = document.getElementById("nombre").value;
+        var a = document.getElementById("apellido").value;
+
+        var informaciondelusuario = "nombre=" + n + "&apellido=" + a ;
+
+        xmlhttp.onreadystatechange = function(){
+            if(xmlhttp.readyState == 4 && xmlhttp.status == 200){
+
+                //Guardo la información del JSON en una variable
+                var mensaje = xmlhttp.responseText;
+                resultado.innerHTML = mensaje;
+
+            }
+        }
+
+        //Abro el archivo del servidor donde envio los parametros
+        xmlhttp.open("POST", "servidor.php", true);
+        //Codificacion para informacion del formulario
+        xmlhttp.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
+        // Envio la respuesta
+        xmlhttp.send(informaciondelusuario);
+
+    //Fin de la funcion ajax_post
+    }
+
+
+
+    </script>
+</body>
+</html>
