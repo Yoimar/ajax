@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Ajax Tutorial 10</title>
+</head>
+<body>
+
+<center>
+    <h1>Tutorial 10 AJAX</h1>
+    <h3>PHP - Mysql Conexión a base de datos</h3>
+
+    <h3>Buscar Usuario</h3>
+    <form>
+    Buscar Persona<input type="text" onkeyup="mostrarsugerencia(this.value)">
+    </form>
+    <p>
+    <span id="info"></span>
+    </p>
+</center>
+
+    <script type="text/javascript">
+
+    /* Variable para llamar al document getElementById con info tener el div en una variable */
+    var resultado = document.getElementById('info');
+
+    function mostrarsugerencia(usuario){
+        var xmlhttp;
+        if (window.XMLHttpRequest){
+            xmlhttp = new XMLHttpRequest();
+        } else {
+            xmlhttp = new ActiveXObject("Microsoft.XMLHTTP");
+        }
+
+        if (usuario.length === 0) {
+            resultado.innerHTML = "";
+        } else {
+
+        xmlhttp.onreadystatechange = function(){
+            if(xmlhttp.readyState === 4 && xmlhttp.status === 200){
+
+                //La respuesta que obtenga (xmlhttp.responseText) la muestro en resultado
+                resultado.innerHTML = xmlhttp.responseText;
+
+            }
+        };
+
+        //Abro el archivo del servidor donde envio los parametros
+        xmlhttp.open("GET", "buscarusuario.php?nombre=" + usuario, true);
+        // Envio la respuesta
+        xmlhttp.send();
+
+        }
+
+    //Fin de la funcion mostrar sugerencia
+    }
+
+
+
+    </script>
+</body>
+</html>
