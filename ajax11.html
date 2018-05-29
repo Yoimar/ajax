@@ -1,0 +1,99 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Ajax Tutorial 11</title>
+    <style type="text/css">
+
+        table{
+            width: 30%;
+            border-collapse: collapse;
+            -webkit-box-shadow: 7px 7px 23px -4px rgba(0,0,0,0.75);
+            -moz-box-shadow: 7px 7px 23px -4px rgba(0,0,0,0.75);
+            box-shadow: 7px 7px 23px -4px rgba(0,0,0,0.75);
+        }
+
+        table, td, th {
+            border: 1px solid #cccccc;
+            padding: 5px;
+        }
+
+        th{
+            text-align: left;
+        }
+
+        tr:nth-child(even){
+            background-color: #E8ECED;
+        }
+    </style>
+</head>
+<body>
+
+<center>
+    <h1>Tutorial 11 AJAX</h1>
+    <h3>PHP - Mysql Seleccionar Usuario</h3>
+
+    <h3>Seleccione el Usuario</h3>
+
+    <select onchange="mostrarusuario(this.value)">
+        <option value="">Seleccionar Persona</option>
+        <option value="1">Dios</option>
+        <option value="2">Jesus</option>
+        <option value="3">Cristo</option>
+        <option value="4">Yoimar</option>
+        <option value="5">Jose</option>
+        <option value="6">Maria</option>
+        <option value="7">Lavirgen</option>
+        <option value="8">Burrito</option>
+    </select>
+
+    <div id="info"></div>
+
+</center>
+
+    <script type="text/javascript">
+
+    /* Variable para llamar al document getElementById con info tener el div en una variable */
+    var resultado = document.getElementById('info');
+
+    function mostrarusuario(usuario){
+        var xmlhttp;
+        if (window.XMLHttpRequest){
+            xmlhttp = new XMLHttpRequest();
+        } else {
+            xmlhttp = new ActiveXObject("Microsoft.XMLHTTP");
+        }
+
+        if (usuario === ""){
+            resultado.innerHTML = "";
+        } else {
+
+        xmlhttp.onreadystatechange = function(){
+            if(xmlhttp.readyState === 4 && xmlhttp.status === 200){
+
+                //La respuesta que obtenga (xmlhttp.responseText) la muestro en resultado
+                resultado.innerHTML = xmlhttp.responseText;
+
+            }
+        };
+
+        //Abro el archivo del servidor donde envio los parametros
+        xmlhttp.open("GET", "servidor11.php?usuario="+usuario, true);
+        // Envio la respuesta
+        xmlhttp.send();
+
+        //Fin del else 
+        }
+
+
+
+    //Fin de la funcion mostrar usuario
+    }
+
+
+
+    </script>
+</body>
+</html>

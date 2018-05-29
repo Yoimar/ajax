@@ -1,0 +1,75 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Ajax Tutorial 12</title>
+    <style type="text/css">
+        
+        .clase{
+            color:#0000FF;
+        }
+
+    </style>
+</head>
+<body>
+
+<center>
+    <h1>Tutorial 12 AJAX</h1>
+    <h3>PHP - Mysql Buscador con Sugerencias</h3>
+
+    <h3>Seleccione el Usuario</h3>
+
+    <form>
+        Buscar persona: 
+        <input type="text" placeholder="Ingresar Nombre" onkeyup="mostrarusuario(this.value)">
+    </form>
+
+    <div id="info"></div>
+
+</center>
+
+    <script type="text/javascript">
+
+    /* Variable para llamar al document getElementById con info tener el div en una variable */
+    var resultado = document.getElementById('info');
+
+    function mostrarusuario(nombre){
+        var xmlhttp;
+        if (window.XMLHttpRequest){
+            xmlhttp = new XMLHttpRequest();
+        } else {
+            xmlhttp = new ActiveXObject("Microsoft.XMLHTTP");
+        }
+
+        if (nombre.length === ""){
+            resultado.innerHTML = "";
+        } else {
+
+        xmlhttp.onreadystatechange = function(){
+            if(xmlhttp.readyState === 4 && xmlhttp.status === 200){
+
+                //La respuesta que obtenga (xmlhttp.responseText) la muestro en resultado
+                resultado.innerHTML = xmlhttp.responseText;
+
+            }
+        };
+
+        //Abro el archivo del servidor donde envio los parametros
+        xmlhttp.open("GET", "servidor12.php?nombre="+nombre, true);
+        // Envio la respuesta
+        xmlhttp.send();
+
+        //Fin del else 
+        }
+
+
+
+    //Fin de la funcion mostrar usuario
+    }
+
+    </script>
+
+</body>
+</html>
