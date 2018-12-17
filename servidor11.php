@@ -6,18 +6,20 @@ $usuario = $_GET['usuario'];
 
 $usuario = (int)$usuario;
 
-$resultado_bd = mysqli_query($conexion, "SELECT * FROM personas WHERE usuario = $usuario;");
+$resultado_bd = mysqli_query($conexion, "SELECT * FROM personas WHERE id = $usuario;");
 
 $usuarios_bd = "";
 
 $usuarios_bd .= "<table>";
 $usuarios_bd .= "<tr>";
+$usuarios_bd .= "<th>#</th>";
 $usuarios_bd .= "<th>Nombre</th>";
 $usuarios_bd .= "<th>Correo</th>";
 $usuarios_bd .= "</tr>";
 
 while ($fila = mysqli_fetch_assoc($resultado_bd)) {
     $usuarios_bd .= "<tr>";
+    $usuarios_bd .= "<td>".$fila['id']."</td>";
     $usuarios_bd .= "<td>".$fila['nombre']."</td>";
     $usuarios_bd .= "<td>".$fila['correo']."</td>";
     $usuarios_bd .= "</tr>";

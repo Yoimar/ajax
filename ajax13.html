@@ -1,0 +1,75 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Ajax Tutorial 13</title>
+    <style type="text/css">
+
+        .clase{
+            color:#0000FF;
+        }
+
+    </style>
+</head>
+<body>
+
+<center>
+    <h1>Tutorial 13 AJAX</h1>
+    <h3>POST - PHP - MySQL - INSERT | Insertar en la base de datos</h3>
+
+    <h3>Ingrese un nuevo Usuario y un nuevo correo</h3>
+
+    <form>
+        Nombre: <input type="text" id="nombre"> <br /> <br />
+        Correo: <input type="email" id="correo"> <br /> <br />
+        <input type="button" name="Enviar" value="Enviar" onclick="ejecutar_insert()">
+    </form>
+
+    <div id="info"></div>
+
+</center>
+
+    <script type="text/javascript">
+
+    /* Variable para llamar al document getElementById con info tener el div en una variable */
+    var resultado = document.getElementById('info');
+
+    function ejecutar_insert(){
+        var xmlhttp;
+        if (window.XMLHttpRequest){
+            xmlhttp = new XMLHttpRequest();
+        } else {
+            xmlhttp = new ActiveXObject("Microsoft.XMLHTTP");
+        }
+
+        var nombre_javascript = document.getElementById('nombre').value;
+        var correo_javascript = document.getElementById('correo').value;
+        // La variable informacion es la que va a pasar ambos valores en Nombre=Value
+        // El & (Amperson) se utiliza para enviar varias variables
+        var informacion = "nombre=" + nombre_javascript + "&correo=" + correo_javascript;
+
+        xmlhttp.onreadystatechange = function(){
+            if(xmlhttp.readyState === 4 && xmlhttp.status === 200){
+
+                //La respuesta que obtenga (xmlhttp.responseText) la muestro en resultado
+                resultado.innerHTML = xmlhttp.responseText;
+
+            }
+        };
+
+        //Abro el archivo del servidor donde envio los parametros
+        xmlhttp.open("POST", "servidor13.php", true);
+        //Codificacion para informacion del formulario
+        xmlhttp.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
+        // Envio la respuesta
+        xmlhttp.send(informacion);
+
+    //Fin de la funcion mostrar usuario
+    }
+
+    </script>
+
+</body>
+</html>

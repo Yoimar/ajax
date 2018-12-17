@@ -2,8 +2,8 @@
 
 $mysql_host = 'localhost';
 $mysql_usuario = 'root';
-$mysql_clave = 'r00TFpS123';
-$mysql_bd = 'usuarios';
+$mysql_clave = '';
+$mysql_bd = 'clientes';
 
 $conexion = mysqli_connect($mysql_host, $mysql_usuario, $mysql_clave, $mysql_bd);
 

@@ -38,16 +38,18 @@
                 //El JSON.parse lo que hace es convertir la respuesta en texto del servidor en un objeto
                 var datos = JSON.parse(xmlhttp.responseText);
 
+                var j = 0;
                 if (resultado.innerHTML === ""){
                     for (var i in datos) {
-                        resultado.innerHTML += datos[i].nombre + " "
+                        j +=1;
+                        resultado.innerHTML += j + ".- " + datos[i].nombre + " "
                         + datos[i].apellido + " tiene "
                         + datos[i].edad + " Años" +"<br/>";
                     }
                 }
             }
         }
-        
+
         //Abro el archivo que contiene los datos del array en Json
         xmlhttp.open("GET", "array.json", true);
         // Envio la respuesta

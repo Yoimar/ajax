@@ -1,0 +1,186 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Ajax Tutorial 18</title>
+    <style type="text/css">
+
+        .clase{
+            color:#0000FF;
+        }
+
+        button{
+            padding: 15px;
+            /* margin-top: 42%; */
+            font-size: 14px;
+            cursor: pointer;
+        }
+
+        div#overlay{
+            display: none;
+            z-index: 2;
+            background: #000000;
+            position: fixed;
+            width: 100%;
+            height: 100%;
+            top: 0px;
+            left: 0px;
+            text-align: center;
+        }
+
+        div#informaciondelusuario{
+            display: none;
+            position: relative;
+            z-index: 3;
+            margin: 20px auto 0px auto;
+            width: 400px;
+            height: 250px;
+            background: #ffffff;
+            color: #000000;
+            border: 4px solid #cccccc;
+            font-size: 18px;
+        }
+
+        /* div#wrapper{
+            position: absolute;
+            top: 40px;
+        } */
+
+        #info{
+            padding: 20px;
+        }
+
+        #titulo{
+            width: 100%;
+            height: 12%;
+            background: #e9e9e9;
+            padding: -20px;
+            text-align: center;
+            font-family: arial;
+            font-size: 18px;
+            padding-top: 15px;
+        }
+
+    </style>
+</head>
+<body onload="mostrar_clientes()">
+
+<center>
+    <h1>Tutorial 18 AJAX</h1>
+    <h3>Proyecto 1 | Mostrar Informacion de Cada Usuario en Web page Overlay</h3>
+
+    <h3>Personas Registrados</h3>
+
+    <form>
+        Nombre: <input type="text" id="nombre" placeholder="Ingrese un Nombre de Usuario" onkeyup="buscar_usuario(this.value)"> <br /> <br />
+    </form>
+
+    <div id="wrapper">
+        <div id="mostrar"></div>
+    </div>
+
+    <div id="overlay"></div>
+
+    <div id="informaciondelusuario">
+
+        <div id="titulo">Información Personal</div>
+        <p id="info"></p>
+        <button onclick="toggleOverlay(this)">Cerrar</button>
+
+    </div>
+
+</center>
+
+    <script type="text/javascript">
+
+    /* Variable para llamar al document getElementById con info tener el div en una variable */
+    var resultado = document.getElementById('mostrar');
+
+    function mostrar_clientes(){
+        var xmlhttp;
+        if (window.XMLHttpRequest){
+            xmlhttp = new XMLHttpRequest();
+        } else {
+            xmlhttp = new ActiveXObject("Microsoft.XMLHTTP");
+        }
+
+        xmlhttp.onreadystatechange = function(){
+            if(xmlhttp.readyState === 4 && xmlhttp.status === 200){
+
+                //La respuesta que obtenga (xmlhttp.responseText) la muestro en resultado
+                resultado.innerHTML = xmlhttp.responseText;
+
+            }
+        };
+
+        //Abro el archivo del servidor donde envio los parametros
+        xmlhttp.open("GET", "servidor18.php", true);
+        // Envio la respuesta
+        xmlhttp.send();
+
+    //Fin de la funcion mostrar usuario
+    }
+
+    function buscar_usuario(nombre){
+        var xmlhttp;
+        if (window.XMLHttpRequest){
+            xmlhttp = new XMLHttpRequest();
+        } else {
+            xmlhttp = new ActiveXObject("Microsoft.XMLHTTP");
+        }
+
+        xmlhttp.onreadystatechange = function(){
+            if(xmlhttp.readyState === 4 && xmlhttp.status === 200){
+
+                //La respuesta que obtenga (xmlhttp.responseText) la muestro en resultado
+                resultado.innerHTML = xmlhttp.responseText;
+
+            }
+        };
+
+        //Abro el archivo del servidor donde envio los parametros
+        xmlhttp.open("GET", "servidor18.php?nombre=" + nombre, true);
+        // Envio la respuesta
+        xmlhttp.send();
+
+    //Fin de la funcion mostrar usuario
+    }
+
+    //Funcion para mostrar la ventana tipo modal
+    function toggleOverlay(elemento) {
+
+        var overlay = document.getElementById("overlay");
+        var informaciondelusuario = document.getElementById("informaciondelusuario");
+        var info = document.getElementById("info");
+
+        overlay.style.opacity = .6;
+
+        if (overlay.style.display == "block") {
+
+            overlay.style.display = "none";
+            informaciondelusuario.style.display = "none";
+
+        }else{
+
+            overlay.style.display = "block";
+            informaciondelusuario.style.display = "block";
+
+        }
+
+        var nombre = elemento.innerHTML;
+        var correo = elemento.nextSibling.value;
+        info.innerHTML = "<strong>Nombre: </strong>" + nombre + "<br />" +
+        "<strong>Correo: </strong>" + correo + "<br />";
+
+
+    }
+
+
+
+
+    </script>
+
+</body>
+</html>

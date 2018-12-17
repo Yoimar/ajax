@@ -31,11 +31,18 @@
         xmlhttp.onreadystatechange = function(){
             if(xmlhttp.readyState == 4 && xmlhttp.status == 200){
                 var datos = JSON.parse(xmlhttp.responseText);
+
+                // Para ver en la consola el valor de una variable se utiliza
+                //console.log(datos);
+
+                // Si el div info se encuentra vacio
                 if (resultado.innerHTML === "") {
                     for (var i in datos) {
                         resultado.innerHTML += "<strong>" + i + "</strong>" + ": " + datos[i] + "<br/>";
                     }
                 }
+
+
             }
         }
         xmlhttp.open("GET", "datos.json", true);

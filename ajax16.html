@@ -1,0 +1,91 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Ajax Tutorial 16</title>
+    <style type="text/css">
+
+        .clase{
+            color:#0000FF;
+        }
+
+    </style>
+</head>
+<body onload="mostrar_clientes()">
+
+<center>
+    <h1>Tutorial 16 AJAX</h1>
+    <h3>Proyecto 1 | Buscar Personas</h3>
+
+    <h3>Personas Registrados</h3>
+
+    <form>
+        Nombre: <input type="text" id="nombre" placeholder="Ingrese un Nombre de Usuario" onkeyup="buscar_usuario(this.value)"> <br /> <br />
+    </form>
+
+    <div id="mostrar"></div>
+
+</center>
+
+    <script type="text/javascript">
+
+    /* Variable para llamar al document getElementById con info tener el div en una variable */
+    var resultado = document.getElementById('mostrar');
+
+    function mostrar_clientes(){
+        var xmlhttp;
+        if (window.XMLHttpRequest){
+            xmlhttp = new XMLHttpRequest();
+        } else {
+            xmlhttp = new ActiveXObject("Microsoft.XMLHTTP");
+        }
+
+        xmlhttp.onreadystatechange = function(){
+            if(xmlhttp.readyState === 4 && xmlhttp.status === 200){
+
+                //La respuesta que obtenga (xmlhttp.responseText) la muestro en resultado
+                resultado.innerHTML = xmlhttp.responseText;
+
+            }
+        };
+
+        //Abro el archivo del servidor donde envio los parametros
+        xmlhttp.open("GET", "servidor16.php", true);
+        // Envio la respuesta
+        xmlhttp.send();
+
+    //Fin de la funcion mostrar usuario
+    }
+
+    function buscar_usuario(nombre){
+        var xmlhttp;
+        if (window.XMLHttpRequest){
+            xmlhttp = new XMLHttpRequest();
+        } else {
+            xmlhttp = new ActiveXObject("Microsoft.XMLHTTP");
+        }
+
+        xmlhttp.onreadystatechange = function(){
+            if(xmlhttp.readyState === 4 && xmlhttp.status === 200){
+
+                //La respuesta que obtenga (xmlhttp.responseText) la muestro en resultado
+                resultado.innerHTML = xmlhttp.responseText;
+
+            }
+        };
+
+        //Abro el archivo del servidor donde envio los parametros
+        xmlhttp.open("GET", "servidor16.php?nombre=" + nombre, true);
+        // Envio la respuesta
+        xmlhttp.send();
+
+    //Fin de la funcion mostrar usuario
+    }
+
+
+    </script>
+
+</body>
+</html>

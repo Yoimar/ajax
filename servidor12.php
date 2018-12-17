@@ -15,13 +15,9 @@ while ($fila = mysqli_fetch_assoc($resultado_bd)) {
     echo "<div class='clase'>".$fila['nombre']."</div>";
 }
 
-
-
-echo $usuarios_bd;
-
 mysqli_close($conexion);
 
-	
+
 }
 
 
