@@ -1,0 +1,175 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Ajax Tutorial 24</title>
+
+    <!-- Latest compiled and minified CSS -->
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous">
+
+    <!-- Optional theme -->
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap-theme.min.css" integrity="sha384-rHyoN1iRsVXV4nD0JutlnGaslCJuC7uwjduW9SVrLvRYooPp2bWYgmgJQIXwl/Sp" crossorigin="anonymous">
+    <link rel="stylesheet" href="style.css">
+
+
+</head>
+<body>
+
+
+<div class="container">
+
+    <h1 class="text-center">Tutorial 24 AJAX</h1>
+    <h3>Proyecto 2 CRUD | Agregar Usuarios (Mediante Ventana)</h3>
+
+</div>
+
+<div class="container">
+    <br> <br> <br>
+    <div id="wrapper">
+        <div id="info"></div>
+    </div>
+</div>
+
+<div id="overlay"></div>
+<div id="nuevaventana">
+    <div id="box-header"></div>
+    <button type="button" name="botoncerrar" id="botoncerrar" onmousedown="ejecutarnuevaventana()"></button>
+    <br><br>
+    <label>Nombre:</label><input type="text" name="nombrenuevousuario" id="nombrenuevousuario">
+    <br><br>
+    <label>Correo:</label><input type="text" name="correonuevousuario" id="correonuevousuario">
+    <br><br>
+    <button type="button" onmousedown="agregarusuario()" style="margin-left: 40%;" class="btn btn-success">Agregar Usuario</button>
+</div>
+
+<script type="text/javascript">
+
+    var resultado = document.getElementById('info');
+
+    function mostrar_usuarios(){
+        var xmlhttp;
+        if (window.XMLHttpRequest){
+            xmlhttp = new XMLHttpRequest();
+        } else {
+            xmlhttp = new ActiveXObject("Microsoft.XMLHTTP");
+        }
+
+        xmlhttp.onreadystatechange = function(){
+            if(xmlhttp.readyState === 4 && xmlhttp.status === 200){
+
+                //La respuesta que obtenga (xmlhttp.responseText) la muestro en resultado
+                resultado.innerHTML = xmlhttp.responseText;
+
+            }
+        };
+
+        //Abro el archivo del servidor donde envio los parametros
+        xmlhttp.open("GET", "servidor24.php?personas=" + "personas", true);
+        // Envio la respuesta
+        xmlhttp.send();
+    }
+
+    // Se llama a la funcion mostrar usuarios al comienzo de la pagina
+    mostrar_usuarios();
+
+    //La funcion editar usuario no utiliza ajax, simplemente hace cambios a la vista para facilitar el borrar y el actualizar
+    function editar_usuario(usuario_id){
+
+        var nombre_id = "nombre_id" + usuario_id;
+        var correo_id = "correo_id" + usuario_id;
+        var borrar = "borrar" + usuario_id;
+        var actualizar = "actualizar" + usuario_id;
+        var editar_nombre_id = nombre_id + "-editar";
+
+        var nombredelusuario = document.getElementById(nombre_id).innerHTML;
+
+        var parent = document.querySelector("#" + nombre_id);
+
+        //Esta seleccion es para verificar que el valor ya este mostrado como input
+        //Con el query selector verfico que este el campo con el id editar_nombre_id
+        //Si no lo encuentro -> null -> lo cambio para que pueda insertarlo
+        if(parent.querySelector("#" + editar_nombre_id) === null){
+            document.getElementById(nombre_id).innerHTML = '<input type = "text" id = "' + editar_nombre_id + '" value = "' + nombredelusuario + '">';
+            document.getElementById(borrar).disabled = "true";
+            document.getElementById(actualizar).style.display = "block";
+
+        }
+
+    }
+
+    function actualizar_usuario(usuario_id) {
+
+        var xmlhttp;
+        if (window.XMLHttpRequest){
+            xmlhttp = new XMLHttpRequest();
+        } else {
+            xmlhttp = new ActiveXObject("Microsoft.XMLHTTP");
+        }
+
+        //Encuentro el input para enviar el value al php que me hara la actualizacion
+        var nombre_actualizado = document.getElementById("nombre_id" + usuario_id + "-editar").value;
+
+        xmlhttp.onreadystatechange = function(){
+            if(xmlhttp.readyState === 4 && xmlhttp.status === 200){
+
+                //LLamamos a la funcion mostrar_usuarios ya que esta me actualiza los valores de la pagina
+                mostrar_usuarios();
+
+            }
+        }
+
+        //Abro el archivo del servidor donde envio los parametros
+        xmlhttp.open("GET", "servidor24.php?usuario_id_actualizado=" + usuario_id + "&nombre_actualizado=" + nombre_actualizado, true);
+        // Envio la respuesta
+        xmlhttp.send();
+
+    }
+
+    function borrar_usuario(usuario_id){
+        var respuesta = confirm("Esta seguro de borrar este usuario?");
+
+        if (respuesta === true) {
+            if (window.XMLHttpRequest){
+                xmlhttp = new XMLHttpRequest();
+            } else {
+                xmlhttp = new ActiveXObject("Microsoft.XMLHTTP");
+            }
+
+            xmlhttp.onreadystatechange = function(){
+                if(xmlhttp.readyState === 4 && xmlhttp.status === 200){
+                    //LLamamos a la funcion mostrar_usuarios ya que esta me actualiza los valores de la pagina
+                    mostrar_usuarios();
+                }
+            }
+
+            //Abro el archivo del servidor donde envio los parametros
+            xmlhttp.open("GET", "servidor24.php?usuario_id_eliminado=" + usuario_id, true);
+            // Envio la respuesta
+            xmlhttp.send();
+
+        }
+    }
+
+    var overlay = document.getElementById('overlay');
+    var nuevaventana = document.getElementById('nuevaventana');
+    function ejecutarnuevaventana() {
+        overlay.style.opacity = .5;
+        if (overlay.style.display == "block") {
+            overlay.style.display = "none";
+            nuevaventana.style.display ="none";
+        }else{
+            overlay.style.display = "block";
+            nuevaventana.style.display ="block";
+        }
+        document.getElementById('nombrenuevousuario').value="";
+        document.getElementById('correonuevousuario').value="";
+    }
+
+
+
+</script>
+
+</body>
+</html>
