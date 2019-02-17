@@ -1,0 +1,86 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Ajax Tutorial 27</title>
+
+    <!-- Latest compiled and minified CSS -->
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous">
+
+    <!-- Optional theme -->
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap-theme.min.css" integrity="sha384-rHyoN1iRsVXV4nD0JutlnGaslCJuC7uwjduW9SVrLvRYooPp2bWYgmgJQIXwl/Sp" crossorigin="anonymous">
+    <link rel="stylesheet" href="style.css">
+
+
+</head>
+<body>
+
+
+<div class="container">
+
+    <h1 class="text-center">Tutorial 27 AJAX</h1>
+    <h3>Obtener datos de un archivo XML (Varios datos)</h3>
+    <button onclick="mostrarinformacion()" class="btn btn-primary">Mostrar Información de XML</button>
+
+</div>
+
+<div class="container">
+    <br>
+    <table id="info">
+        <!-- aqui van los datos -->
+    </table>
+
+
+</div>
+
+
+<script type="text/javascript">
+
+    var resultado = document.getElementById('info');
+
+    function mostrarinformacion(){
+        var resultado = document.getElementById('info');
+        var xmlhttp;
+        if (window.XMLHttpRequest){
+            xmlhttp = new XMLHttpRequest();
+        } else {
+            xmlhttp = new ActiveXObject("Microsoft.XMLHTTP");
+        }
+
+        xmlhttp.onreadystatechange = function(){
+            if(xmlhttp.readyState === 4 && xmlhttp.status === 200){
+
+                if (xmlhttp.responseXML !== null) {
+                    var xmldocumento = xmlhttp.responseXML;
+                    var tabla = "<tr><th>Nombre</th><th>Apellido</th></tr>";
+                    var persona = xmldocumento.getElementsByTagName("cliente");
+                    for (var i = 0; i < persona.length; i++) {
+                        tabla += "<tr><td>"+
+                        persona[i].getElementsByTagName("nombre")[0].childNodes[0].nodeValue +
+                        "</td><td>" +
+                        persona[i].getElementsByTagName("apellido")[0].childNodes[0].nodeValue +
+                        "</td></tr>";
+                    }
+
+                    resultado.innerHTML = tabla;
+
+
+                }
+
+            }
+        }
+        //Fin de funcion onreadystatechange
+
+        //Abro el archivo del servidor donde envio los parametros
+        xmlhttp.open("GET", "datos_clientes.xml", true);
+        // Envio la respuesta
+        xmlhttp.send();
+
+    }
+
+</script>
+
+</body>
+</html>
